@@ -1,3 +1,4 @@
+import re
 
 
 class Keep_accounts:
@@ -22,14 +23,21 @@ class Keep_accounts:
         R.close()
         print("\n"+"記帳成功!!\n")
 
-    def Inquire(number):
+    def inquire(number):
         line1 = " "
+        total_money = 0
         opentxt = open("記帳.txt", "r")
         for line in opentxt:
             line1 = line1+line
         opentxt.close()
         dats = line1.split("|")
-        print(dats[number])
+        dats1 = re.findall(r'[\d]+', dats[number])
+        for i in range(0, len(dats1)):
+            total_money += int(dats1[i])
+        if number == 2:
+            print(dats[number] + "\n\n總計:", total_money, "元\n")
+        else:
+            print(dats[number] + "\n總計:", total_money, "元\n")
         print("\n"+"查詢成功!!!"+"\n\n")
 
     def search(Categories):
@@ -77,7 +85,7 @@ if __name__ == "__main__":
                         break
                 number = int(number)
                 number -= 1
-                Keep_accounts.Inquire(number)
+                Keep_accounts.inquire(number)
 
             elif int(choose) == 3:
                 Categories = input("請輸入要查詢的關鍵字\n")
